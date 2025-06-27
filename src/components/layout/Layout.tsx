@@ -26,6 +26,9 @@ function Layout(): React.ReactElement {
                 <Text mt={2} color="gray.600">
                   프로젝트 초기 설정이 완료되었습니다.
                 </Text>
+                <Text mt={2} color="green.600" fontWeight="bold">
+                  🔐 암호화 유틸리티 및 Firebase 연동 기반 구현 완료
+                </Text>
               </Box>
             } 
           />
