@@ -22,15 +22,19 @@
   "license": "MIT",
   "description": "Firebase 기반 퀀트 투자 백테스팅 플랫폼",
   "dependencies": {
+    "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/react": "^2.10.9",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@types/node": "^20.10.4",
-    "firebase": "^11.9.1",
+    "@vercel/node": "^5.3.0",
+    "firebase": "^11.10.0",
     "framer-motion": "^10.18.0",
+    "rate-limiter-flexible": "^7.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.20.1",
+    "yahoo-finance2": "^2.13.3",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
