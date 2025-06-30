@@ -2,6 +2,8 @@ import { Routes, Route, Link } from 'react-router-dom';
 import { Box, Container, Heading, Text, Button, Flex, Spacer, useColorModeValue } from '@chakra-ui/react';
 import FirebaseSetup from '../auth/FirebaseSetup';
 import ConnectionStatus from '../auth/ConnectionStatus';
+import SearchPage from '../search/SearchPage';
+import StockDetail from '../search/StockDetail';
 import { useFirebaseStore } from '../../store/firebase';
 
 /**
@@ -13,6 +15,9 @@ function Layout(): React.ReactElement {
   const connectionStatus = useFirebaseStore(state => state.connectionStatus);
   const headerBg = useColorModeValue('blue.600', 'blue.800');
   const headerColor = useColorModeValue('white', 'gray.100');
+
+  // 개발 중 임시 설정 - 항상 true로 설정하여 다른 화면에 접근 가능하게 함
+  const allowAccess = true; // 개발 중에만 true로 설정
 
   return (
     <Box minH="100vh">
@@ -31,36 +36,44 @@ function Layout(): React.ReactElement {
 
       {/* 메인 콘텐츠 */}
       <Container maxW="container.xl" py={8}>
-        <Routes>
-          <Route 
-            path="/" 
-            element={
-              <Box textAlign="center">
-                <Heading mb={4}>Core Quant에 오신 것을 환영합니다!</Heading>
-                <Text>Firebase 기반 퀀트 투자 백테스팅 플랫폼</Text>
-                <Text mt={2} color="gray.600">
-                  프로젝트 초기 설정이 완료되었습니다.
+        {!allowAccess && !isConfigSaved && connectionStatus !== 'connected' ? (
+          <Box py={10}>
+            <FirebaseSetup />
+          </Box>
+        ) : (
+          <Routes>
+            <Route path="/" element={
+              <Box py={10}>
+                <Heading mb={6}>Core Quant에 오신 것을 환영합니다</Heading>
+                <Text mb={4}>
+                  시작하려면 아래 옵션 중 하나를 선택하세요.
                 </Text>
-                <Text mt={2} color="green.600" fontWeight="bold">
-                  🔐 암호화 유틸리티 및 Firebase 연동 기반 구현 완료
-                </Text>
-                
-                {!isConfigSaved && (
-                  <Button 
-                    as={Link}
-                    to="/settings"
-                    colorScheme="blue"
-                    size="lg"
-                    mt={6}
-                  >
-                    Firebase 설정 시작하기
+                <Flex gap={4} wrap="wrap">
+                  <Button as={Link} to="/search" colorScheme="blue">
+                    종목 검색
                   </Button>
-                )}
+                  <Button as={Link} to="/strategy" colorScheme="teal">
+                    투자 전략 생성
+                  </Button>
+                  <Button as={Link} to="/backtest" colorScheme="purple">
+                    백테스트 실행
+                  </Button>
+                </Flex>
               </Box>
-            } 
-          />
-          <Route path="/settings" element={<FirebaseSetup />} />
-        </Routes>
+            } />
+            <Route path="/settings" element={<FirebaseSetup />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/stock/:symbol" element={<StockDetail />} />
+            <Route path="*" element={
+              <Box py={10} textAlign="center">
+                <Heading size="lg">404 - 페이지를 찾을 수 없습니다</Heading>
+                <Button as={Link} to="/" mt={6} colorScheme="blue">
+                  홈으로 돌아가기
+                </Button>
+              </Box>
+            } />
+          </Routes>
+        )}
       </Container>
     </Box>
   );
