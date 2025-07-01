@@ -5,6 +5,8 @@ import ConnectionStatus from '../auth/ConnectionStatus';
 import SearchPage from '../search/SearchPage';
 import StockDetail from '../search/StockDetail';
 import { useFirebaseStore } from '../../store/firebase';
+import StrategyList from '../strategy/StrategyList';
+import StrategyBuilder from '../strategy/StrategyBuilder';
 
 /**
  * 애플리케이션의 메인 레이아웃 컴포넌트
@@ -64,6 +66,12 @@ function Layout(): React.ReactElement {
             <Route path="/settings" element={<FirebaseSetup />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="/stock/:symbol" element={<StockDetail />} />
+            
+            {/* 전략 관련 라우트 */}
+            <Route path="/strategy" element={<StrategyList />} />
+            <Route path="/strategy/create" element={<StrategyBuilder />} />
+            <Route path="/strategy/edit/:id" element={<StrategyBuilder />} />
+            
             <Route path="*" element={
               <Box py={10} textAlign="center">
                 <Heading size="lg">404 - 페이지를 찾을 수 없습니다</Heading>
